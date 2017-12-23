@@ -18,4 +18,4 @@ This will give me and other council members a better idea of how the guild is pe
 ## uml component diagram 📈
 
 ## mockup 🎨
-<img src="public/img/mockup/homepage.png" width="200px"> <img src="public/img/mockup/memberspage.png" width="200px"> <img src="public/img/mockup/neomailpage.png" width="200px"> <img src="public/img/mockup/createneomailpage.png" width="200px"> <img src="public/img/mockup/neomailcontentpage.png" width="200px">
+<img src="public/img/mockup/homepage.png" width="165px"> <img src="public/img/mockup/memberspage.png" width="165px"> <img src="public/img/mockup/neomailpage.png" width="165px"> <img src="public/img/mockup/createneomailpage.png" width="165px"> <img src="public/img/mockup/neomailcontentpage.png" width="165px">
