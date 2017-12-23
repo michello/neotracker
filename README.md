@@ -1,6 +1,13 @@
 # neotracker
 an application that tracks and monitors guild activity
 
+## dev timeline
+1. [ ] `12.23.2017` Create application mockups
+2. [ ] `12.24.2017` Create UML mockup
+3. [ ] `12.25.2017` to `01.12.2017` Development period
+4. [ ] `01.13.2017` to `01.19.2017` Debugging
+5. [ ] Integrate ReactJS if available/time
+
 ## porpoise 🐬 
 Maintaining a guild in [Neopets](http://www.neopets.com) is a legit job. You have to be quick to address faltering member activity and see what events work and what events don't.
 
