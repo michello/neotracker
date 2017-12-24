@@ -24,3 +24,4 @@ This will give me and other council members a better idea of how the guild is pe
 ## tutorial links
 - [Project Settings for a NodeJS Express app with PSQL](https://medium.com/@HalahSalih/project-settings-for-an-express-app-with-knex-16959517b53b)
 - [How to Deploy An Express App to Heroku with Postgresql Database Using Git](https://medium.com/@HalahSalih/how-to-deploy-an-express-app-to-heroku-with-postgresql-database-using-git-266e100d59ff)
+- [Setting up NodeJS with a database](https://hackernoon.com/setting-up-node-js-with-a-database-part-1-3f2461bdd77f)
