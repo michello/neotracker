@@ -19,7 +19,7 @@ This will give me and other council members a better idea of how the guild is pe
 ![uml component diagram](public/img/mockup/diagram.png)
 
 ## er diagram
-![ER diagram](public/img/mockup/ER Diagram.png)
+![ER diagram](public/img/mockup/ER%20Diagram.png)
 
 ## mockup 🎨
 <img src="public/img/mockup/homepage.png" width="165px"> <img src="public/img/mockup/memberspage.png" width="165px"> <img src="public/img/mockup/neomailpage.png" width="165px"> <img src="public/img/mockup/createneomailpage.png" width="165px"> <img src="public/img/mockup/neomailcontentpage.png" width="165px">
