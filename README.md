@@ -2,7 +2,7 @@
 an application that tracks and monitors guild activity
 
 ## dev timeline
-1. [ ] `12.23.2017` Create application mockups
+1. [x] `12.23.2017` Create application mockups
 2. [ ] `12.24.2017` Create UML mockup
 3. [ ] `12.25.2017` to `01.12.2017` Development period
 4. [ ] `01.13.2017` to `01.19.2017` Debugging
@@ -19,3 +19,7 @@ This will give me and other council members a better idea of how the guild is pe
 
 ## mockup 🎨
 <img src="public/img/mockup/homepage.png" width="165px"> <img src="public/img/mockup/memberspage.png" width="165px"> <img src="public/img/mockup/neomailpage.png" width="165px"> <img src="public/img/mockup/createneomailpage.png" width="165px"> <img src="public/img/mockup/neomailcontentpage.png" width="165px">
+
+## tutorial links
+- [Project Settings for a NodeJS Express app with PSQL](https://medium.com/@HalahSalih/project-settings-for-an-express-app-with-knex-16959517b53b)
+- [How to Deploy An Express App to Heroku with Postgresql Database Using Git](https://medium.com/@HalahSalih/how-to-deploy-an-express-app-to-heroku-with-postgresql-database-using-git-266e100d59ff)
