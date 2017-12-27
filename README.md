@@ -16,10 +16,10 @@ After running MuxHo, an anime/manga guild, for three years, I've decided to crea
 This will give me and other council members a better idea of how the guild is performing and when and allow us to make connections how the guild activity corresponds to how much effort we are putting in.
 
 ## uml component diagram 📈
-![diagram](public/img/mockup/diagram.png)
+![diagram](assets/img/mockup/diagram.png)
 
 ## mockup 🎨
-<img src="public/img/mockup/homepage.png" width="165px"> <img src="public/img/mockup/memberspage.png" width="165px"> <img src="public/img/mockup/neomailpage.png" width="165px"> <img src="public/img/mockup/createneomailpage.png" width="165px"> <img src="public/img/mockup/neomailcontentpage.png" width="165px">
+<img src="assets/img/mockup/homepage.png" width="165px"> <img src="assets/img/mockup/memberspage.png" width="165px"> <img src="assets/img/mockup/neomailpage.png" width="165px"> <img src="assets/img/mockup/createneomailpage.png" width="165px"> <img src="assets/img/mockup/neomailcontentpage.png" width="165px">
 
 ## tutorial links
 - [Project Settings for a NodeJS Express app with PSQL](https://medium.com/@HalahSalih/project-settings-for-an-express-app-with-knex-16959517b53b)
