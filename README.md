@@ -16,11 +16,10 @@ After running MuxHo, an anime/manga guild, for three years, I've decided to crea
 This will give me and other council members a better idea of how the guild is performing and when and allow us to make connections how the guild activity corresponds to how much effort we are putting in.
 
 ## uml component diagram 📈
-![diagram](assets/img/mockup/diagram.png)
 ![uml component diagram](assets/img/mockup/diagram.png)
 
 ## er diagram
-![ER diagram](assets/img/mockup/ER%20Diagram.png)
+![ER diagram](assets/img/mockup/ER%20diagram.png)
 
 ## mockup 🎨
 <img src="assets/img/mockup/homepage.png" width="165px"> <img src="assets/img/mockup/memberspage.png" width="165px"> <img src="assets/img/mockup/neomailpage.png" width="165px"> <img src="assets/img/mockup/createneomailpage.png" width="165px"> <img src="assets/img/mockup/neomailcontentpage.png" width="165px">
