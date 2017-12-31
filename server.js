@@ -1,7 +1,8 @@
 var express = require('express');
 var mysql = require("mysql");
+const path = require("path");
 
-var home = require('./routes/index')
+var home = require('./routes/index');
 
 
 
@@ -21,9 +22,11 @@ conn.connect(function(err){
 });
 
 var app = express();
-app.set('view engine', 'html');
+
+app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/views'));
+app.use(express.static(__dirname + '/assets'));
 
 app.use(function(req, res, next){
   req.con = conn;

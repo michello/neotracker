@@ -1,0 +1,56 @@
+@font-face {
+  font-family: Franklin;
+  src: url('font/FranklinGothicBook.otf');
+}
+
+* {
+  font-family: Franklin;
+}
+
+a {
+  color: #6a6955
+  text-decoration: none;
+}
+
+a:hover {
+  color: #e2b51c;
+}
+
+#content {
+  max-width: 50%;
+  margin: 0 auto;
+}
+
+header #title {
+  font-size: 60px;
+}
+
+#title #neo {
+  color: #e2b51c;
+}
+
+#title #tracker {
+  color: #6a6955;
+}
+
+header #links a {
+  display: inline-block;
+  float:left;
+  margin-right:50px;
+}
+
+header {
+  padding-bottom: 30px;
+  border-bottom: 1px solid #6a6955;
+}
+
+header #user {
+  display: inline-block;
+  float:right;
+}
+
+h1 {
+  font-size: 24px;
+  text-transform: uppercase;
+  color: #6a6955;
+}
