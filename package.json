@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/ml4963/neotracker#readme",
   "dependencies": {
+    "after-load": "^1.0.4",
     "body-parser": "^1.18.2",
     "cheerio": "^1.0.0-rc.2",
     "cheerio-tableparser": "^1.0.1",
+    "circular-json": "^0.5.1",
     "ejs": "^2.5.7",
     "error-stack-parser": "^2.0.1",
     "express": "^4.16.2",
@@ -30,12 +32,15 @@
     "jquery": "^3.2.1",
     "jsdom": "^4.0.5",
     "jsdom-global": "^3.0.2",
+    "json-stringify-safe": "^5.0.1",
     "knex": "^0.14.2",
     "method-override": "^2.3.10",
+    "moment": "^2.20.1",
     "mysql": "^2.15.0",
     "path": "^0.12.7",
     "pg": "^7.4.0",
     "request": "^2.83.0",
+    "soupselect": "^0.2.0",
     "util": "^0.10.3"
   }
 }

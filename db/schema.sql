@@ -1,0 +1,24 @@
+CREATE TABLE User(
+  username VARCHAR(20),
+  password VARCHAR(20),
+  first_name VARCHAR(20),
+  isAdmin BOOLEAN,
+  isActive BOOLEAN,
+  PRIMARY KEY (username)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Post(
+  date TIMESTAMP,
+  username VARCHAR(20),
+  post_count int,
+  FOREIGN KEY (username) REFERENCES User (username)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Neomail(
+  sender VARCHAR(20),
+  receiver VARCHAR(20),
+  subj_line VARCHAR(30),
+  content VARCHAR(1400),
+  FOREIGN KEY (sender) REFERENCES User (username),
+  FOREIGN KEY (receiver) REFERENCES User (username)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
