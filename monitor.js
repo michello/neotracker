@@ -1,0 +1,94 @@
+var request = require('request');
+var CircularJSON = require('circular-json');
+var stringify = require('json-stringify-safe');
+var request = require('request');
+var cheerio = require('cheerio');
+var moment = require('moment');
+
+function userExists(username) {
+  var sql = "SELECT * FROM user WHERE username='"+username+"'";
+  var query = db.query(sql, function(err, result) {
+
+    if (err) {
+      if (err.errno === 1054) {
+        sql = "INSERT INTO user (username, password, first_name, isAdmin, isActive) VALUES ('"+ username + "', '', '', false, true)";
+        db.query(sql);
+      }
+    }
+
+  });
+  return;
+}
+
+function insertData(data) {
+  var sql = "INSERT INTO post (date, username, post_count) VALUES (TIMESTAMP('" + data.date + "'), '" + data.username + "', " + data.post_count+ ")";
+  db.query(sql, data, function(err, result) {
+    if (err) {
+      console.log(err);
+    }
+  });
+  return;
+}
+
+
+function scrape() {
+  var req = request.defaults({
+    jar: true,
+    rejectUnauthorized: false,
+    followAllRedirects: true
+  });
+
+  req.post({
+    uri: 'http://www.neopets.com/login.phtml',
+    form: {
+      username: 'mugennohoshi',
+      password: 'shootingforstars97'
+    },
+    headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.110 Safari/537.36',
+        'Content-Type' : 'application/x-www-form-urlencoded'
+    },
+    method: 'POST'
+
+  }, function(err, resp, body) {
+    req.get({
+      url: "http://www.neopets.com/guilds/guild_members.phtml?id=4168178",
+      headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/27.0.1453.110 Safari/537.36',
+          'Content-Type' : 'application/x-www-form-urlencoded'
+      },
+      method: 'GET'
+    }, function(err, resp, body){
+
+      const $ = cheerio.load(body);
+      var rowData;
+
+      tableData = $('table')[14];
+      rowData = $(tableData).find('tr');
+
+
+
+      for (j=1;j<(rowData.length); j++) {
+        let data = {}
+        // "YYYY-MM-DD HH:mm:ss"
+        data.date = moment(Date.now()).format("YYYY-MM-DD");
+        let account = rowData[j].children[0].children[0].children[0];
+        let num_post;
+        if (typeof CircularJSON.stringify(account.children[0]) != 'undefined') {
+          data.username = account.children[0].children[0].data;
+        } else {
+          data.username = account.next.next.children[0].children[0].data;
+        }
+
+        // makes sure users are created
+        userExists(data.username);
+
+        data.post_count = rowData[j].children[0].next.next.next.children[0].children[0].data;
+
+        insertData(data);
+
+      };
+
+    });
+  });  
+}
