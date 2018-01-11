@@ -4,6 +4,7 @@ CREATE TABLE User(
   first_name VARCHAR(20),
   isAdmin BOOLEAN,
   isActive BOOLEAN,
+  joined TIMESTAMP,
   PRIMARY KEY (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

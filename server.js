@@ -1,12 +1,11 @@
 var express = require('express');
 const path = require("path");
-var site = require('./routes/index');
 var app = express();
 var mysql = require('mysql');
 var schedule = require('node-schedule');
 var monitor = require('./monitor');
 
-// 
+
 schedule.scheduleJob('0 0 * * *', () => {
   monitor.scrape();
 });
@@ -20,6 +19,8 @@ var connection = mysql.createConnection({
 
 connection.connect();
 global.db = connection;
+
+var site = require('./routes/index');
 
 app.set('view engine', 'ejs');
 

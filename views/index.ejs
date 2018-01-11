@@ -27,8 +27,22 @@
       </header>
 
 
-      <div id = "todayStats">
-        <h1>Today's stats</h1>
+      <div id = "stats">
+        <h1>Yesterday's Stats</h1>
+        <p>
+          <%= yesterday.posts %> posts made
+        </p>
+        <p>
+          <%= yesterday.users.length %> users posted
+        </p>
+        <p>
+          with <%= yesterday.newMembers.length %> new members.
+        </p>
+      </div>
+
+      <div id="members">
+        <h1>Stats</h1>
+        <p>filter for</p>
       </div>
 
 

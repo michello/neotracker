@@ -4,18 +4,17 @@ var stringify = require('json-stringify-safe');
 var request = require('request');
 var cheerio = require('cheerio');
 var moment = require('moment');
+var today = moment(Date.now()).format("YYYY-MM-DD");
 
 function userExists(username) {
   var sql = "SELECT * FROM user WHERE username='"+username+"'";
   var query = db.query(sql, function(err, result) {
-
     if (err) {
       if (err.errno === 1054) {
-        sql = "INSERT INTO user (username, password, first_name, isAdmin, isActive) VALUES ('"+ username + "', '', '', false, true)";
+        sql = "INSERT INTO user (username, password, first_name, isAdmin, isActive, joined) VALUES ('"+ username + "', '', '', false, true, " + today +")";
         db.query(sql);
       }
     }
-
   });
   return;
 }
@@ -90,5 +89,5 @@ function scrape() {
       };
 
     });
-  });  
+  });
 }
