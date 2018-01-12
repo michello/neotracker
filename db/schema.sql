@@ -23,3 +23,9 @@ CREATE TABLE Neomail(
   FOREIGN KEY (sender) REFERENCES User (username),
   FOREIGN KEY (receiver) REFERENCES User (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE Week(
+  id INT AUTO_INCREMENT,
+  week TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

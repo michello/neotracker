@@ -4,11 +4,7 @@ var app = express();
 var mysql = require('mysql');
 var schedule = require('node-schedule');
 var monitor = require('./monitor');
-
-
-schedule.scheduleJob('0 0 * * *', () => {
-  monitor.scrape();
-});
+var moment = require('moment');
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -20,12 +16,21 @@ var connection = mysql.createConnection({
 connection.connect();
 global.db = connection;
 
+schedule.scheduleJob('0 0 0 0 0', () => {
+  if (moment(Date.now()).day() == 1) {
+    sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
+    db.query(sql);
+  }
+  monitor;
+});
+
 var site = require('./routes/index');
 
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/assets'));
+
 
 // all the routes/paths
 app.use('/', site);
@@ -37,6 +42,7 @@ app.use(function(req, res, next) {
 });
 
 module.exports = app;
+
 
 var listener = app.listen(8000, function(){
   console.log('Listening on port ' + listener.address().port);
