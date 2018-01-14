@@ -21,28 +21,29 @@ schedule.scheduleJob('0 0 0 0 0', () => {
     sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
     db.query(sql);
   }
-  monitor;
+  monitor.start();
 });
 
+var members = require('./routes/members');
 var site = require('./routes/index');
-
 app.set('view engine', 'ejs');
-
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/assets'));
 
-
+// app.use('/membersPosts', membersPage);
 // all the routes/paths
 app.use('/', site);
+app.use('/members', members);
 
-app.use(function(req, res, next) {
-  var err = new Error('Not found');
-  err.status = 404;
+app.use(function(req, res, err, next) {
+  if (err) {
+      console.log(err);
+  }
+
   next(err);
 });
 
 module.exports = app;
-
 
 var listener = app.listen(8000, function(){
   console.log('Listening on port ' + listener.address().port);
