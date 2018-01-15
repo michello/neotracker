@@ -16,10 +16,13 @@ CREATE TABLE Post(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Neomail(
+  id INT,
+  date TIMESTAMP,
   sender VARCHAR(20),
   receiver VARCHAR(20),
   subj_line VARCHAR(30),
   content VARCHAR(1400),
+
   FOREIGN KEY (sender) REFERENCES User (username),
   FOREIGN KEY (receiver) REFERENCES User (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

@@ -15,7 +15,16 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+    <style>
+      .hidden {
+        display: none;
+      }
 
+      .info {
+        background-color: #e2b51c;
+        position:absolute;
+      }
+    </style>
   </head>
   <body>
     <div id = "content">
@@ -32,27 +41,45 @@
           welcome user <a href="/logout">(logout)</a>
         </div>
       </header>
-            <h1>Member Stats</h1>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">username</th>
-                  <th scope="col">message count since <%= dates[0] %></th>
-                  <th scope="col">message count since <%= dates[1] %></th>
-                  <th scope="col">difference</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% for (user in username) { %>
-                  <tr>
-                    <th scope="row"><%= username[user] %></th>
-                    <td><%= info[dates[0]][username[user]] %></td>
-                    <td><%= info[dates[1]][username[user]] %></td>
-                    <td><%= info[dates[1]][username[user]] - info[dates[0]][username[user]] %></td>
-                  </tr>
-                <% } %>
-              </tbody>
-            </table>
 
+      <h1>Neomail <a href="/neomail">Sent</a><a href="/create-neomail">Create</a></h1>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">sent</th>
+            <th scope="col">when</th>
+            <th scope="col">by</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <% for (key in neomails) { %>
+            <% for (hello in neomails[key]) { %>
+              <tr>
+                <th scope="row"><span class="post" id = "<%= neomails[key][hello].id%>"><%= neomails[key][hello].title %></span></th>
+                <td><%= key %></td>
+                <td><%= neomails[key][hello].sender %></td>
+
+              <div id="post_<%= neomails[key][hello].id%>" class="hidden info">
+                <%= neomails[key][hello].title %>
+                <%= neomails[key][hello].content %>
+                <%= neomails[key][hello].recipients %>
+              </div>
+              </tr>
+            <% } %>
+          <% } %>
+        </tbody>
+      </table>
+
+
+    </div>
     </body>
-</html>
+    <script>
+    $('.post').click(function(){
+      var id = $(this).attr('id');
+      var info_name = "#post_"+id;
+      $(info_name).toggleClass('hidden');
+    })
+
+    </script>
+  </html>

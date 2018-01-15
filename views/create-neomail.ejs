@@ -8,14 +8,14 @@
     <meta name="author" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
-    <link rel="shortcut icon" href="">
     <!-- Compiled and minified CSS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/selectize.min.js"></script>
   </head>
   <body>
     <div id = "content">
@@ -31,28 +31,24 @@
         <div id = "user">
           welcome user <a href="/logout">(logout)</a>
         </div>
-      </header>
-            <h1>Member Stats</h1>
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">username</th>
-                  <th scope="col">message count since <%= dates[0] %></th>
-                  <th scope="col">message count since <%= dates[1] %></th>
-                  <th scope="col">difference</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% for (user in username) { %>
-                  <tr>
-                    <th scope="row"><%= username[user] %></th>
-                    <td><%= info[dates[0]][username[user]] %></td>
-                    <td><%= info[dates[1]][username[user]] %></td>
-                    <td><%= info[dates[1]][username[user]] - info[dates[0]][username[user]] %></td>
-                  </tr>
-                <% } %>
-              </tbody>
-            </table>
+        <hr>
+        <h1>Neomail <a href="/neomail">Sent</a><a href="/create-neomail">Create</a></h1>
+        <form action="/processing-neomail" method="POST">
+          <p>1. Enter a title for your neomail.</p>
+          <input type="text" name="neomail_title" placeholder="neomail title name" required/>
+          <p>2. Enter your content here:</p>
+          <input type="text" name="neomail_content" placeholder="neomail content here" required />
+          <p>3. Select which users to send:</p>
+          <div class="selectize-input items not-full has-options has-items"><input type="text" autocomplete="off" tabindex="" id="select-users-selectized" style="width: 4px;"></div>
+        </form>
 
-    </body>
+        <form>
+      </header>
+    </div>
+  </body>
+  <script>
+  $('#select-users').selectize({
+    maxItems: 3
+});
+  </script>
 </html>

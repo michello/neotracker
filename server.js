@@ -16,7 +16,7 @@ var connection = mysql.createConnection({
 connection.connect();
 global.db = connection;
 
-schedule.scheduleJob('0 0 0 0 0', () => {
+schedule.scheduleJob({hour: 0, minute: 0}, () => {
   if (moment(Date.now()).day() == 1) {
     sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
     db.query(sql);
@@ -26,20 +26,23 @@ schedule.scheduleJob('0 0 0 0 0', () => {
 
 var members = require('./routes/members');
 var site = require('./routes/index');
+var neomail = require('./routes/neomail');
+var sendNeomail = require('./routes/create-neomail');
+
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/assets'));
 
-// app.use('/membersPosts', membersPage);
 // all the routes/paths
 app.use('/', site);
 app.use('/members', members);
+app.use('/neomail', neomail);
+app.use('/create-neomail', sendNeomail);
 
 app.use(function(req, res, err, next) {
   if (err) {
       console.log(err);
   }
-
   next(err);
 });
 
