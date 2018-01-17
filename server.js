@@ -10,6 +10,7 @@ var request = require('request');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
 
+/*
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -19,7 +20,7 @@ var connection = mysql.createConnection({
 
 connection.connect();
 global.db = connection;
-
+*/
 schedule.scheduleJob({hour: 0, minute: 1}, () => {
   if (moment(Date.now()).day() == 1) {
 
@@ -36,12 +37,13 @@ var sendNeomail = require('./routes/create-neomail');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
 
+/*
 app.use(session({
   secret: 'work hard',
   resave: true,
   saveUninitialized: false
 }));
-
+*/
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/assets'));
@@ -59,6 +61,7 @@ app.use('/login', login);
 app.use('/logout', login);
 
 module.exports = app;
+/*
 function checkSignIn(req, res) {
   if (req.session.user) {
     next();
@@ -67,9 +70,10 @@ function checkSignIn(req, res) {
     res.redirect('/login');
   }
 }
+*/
 
-
-app.post('/processing-neomail', checkSignIn, function(req, res) {
+// app.post('/processing-neomail', checkSignIn, function(req, res) {
+app.post('/processing-neomail', function(req, res) {
   var username = 'mochadroppe';
   var recipients = req.body.states;
   var subjectLine = req.body.neomail_title;
