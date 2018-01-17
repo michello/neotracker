@@ -14,7 +14,7 @@ db.query(sql, function(err, result) {
 */
 // push usernames here
 username.push('mochadroppe');
-
+console.log(username);
 
 router.get('/', function(req, res, next) {
   res.render('create-neomail', {username:username});

@@ -7,7 +7,7 @@ var monitor = require('./monitor');
 var moment = require('moment');
 var bodyParser = require('body-parser');
 var request = require('request');
-/*
+
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -17,9 +17,10 @@ var connection = mysql.createConnection({
 
 connection.connect();
 global.db = connection;
-*/
-schedule.scheduleJob({hour: 0, minute: 0}, () => {
+
+schedule.scheduleJob({hour: 0, minute: 1}, () => {
   if (moment(Date.now()).day() == 1) {
+
     sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
     db.query(sql);
   }
