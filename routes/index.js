@@ -18,6 +18,15 @@ yesterday.newMembers = []
 var weeks = [];
 var posts = {}
 
+function checkSignIn(req, res) {
+  if (req.session.user) {
+    next();
+  } else {
+    var err = new Error("Not logged in!");
+    res.redirect('/login');
+  }
+}
+
 var sql = "SELECT SUM(post_count) as past_count FROM post WHERE date = '" + yesterday.date +"'";
 db.query(sql, function(err, result) {
   if (result) {
@@ -79,8 +88,8 @@ db.query(sql, function(err, result) {
   });
 });
 
-router.get('/', function(req, res, next) {
-  res.render('index', {yesterday:yesterday, posts:posts, weeks:weeks});
+router.get('/', checkSignIn, function(req, res, next) {
+  res.render('index', {id: req.session.user.id, yesterday:yesterday, posts:posts, weeks:weeks});
 });
 
 module.exports = router;

@@ -7,6 +7,8 @@ var monitor = require('./monitor');
 var moment = require('moment');
 var bodyParser = require('body-parser');
 var request = require('request');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -31,26 +33,28 @@ var members = require('./routes/members');
 var site = require('./routes/index');
 var neomail = require('./routes/neomail');
 var sendNeomail = require('./routes/create-neomail');
+var login = require('./routes/login');
 
-/*
 app.use(session({
   secret: 'work hard',
   resave: true,
   saveUninitialized: false
 }));
-*/
+
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/assets'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+// app.use(session({secret: "Your secret key"}));
 
 // all the routes/paths
 app.use('/', site);
 app.use('/members', members);
 app.use('/neomail', neomail);
-
 app.use('/create-neomail', sendNeomail);
+app.use('/login', login);
 
 app.use(function(req, res, err, next) {
   if (err) {
@@ -60,8 +64,15 @@ app.use(function(req, res, err, next) {
 });
 
 module.exports = app;
-
-app.post('/processing-neomail', function(req, res) {
+function checkSignIn(req, res) {
+  if (req.session.user) {
+    next();
+  } else {
+    var err = new Error("Not logged in!");
+    res.redirect('/login');
+  }
+}
+app.post('/processing-neomail', checkSignIn, function(req, res) {
   var username = 'mochadroppe';
   var recipients = req.body.states;
   var subjectLine = req.body.neomail_title;
@@ -114,7 +125,7 @@ app.post('/processing-neomail', function(req, res) {
       });
 
     // res.redirect('/neomail')
-})
+  })
 })
 
 var listener = app.listen(8000, function(){
