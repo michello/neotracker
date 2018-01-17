@@ -34,6 +34,7 @@ var site = require('./routes/index');
 var neomail = require('./routes/neomail');
 var sendNeomail = require('./routes/create-neomail');
 var login = require('./routes/login');
+var logout = require('./routes/logout');
 
 app.use(session({
   secret: 'work hard',
@@ -55,13 +56,7 @@ app.use('/members', members);
 app.use('/neomail', neomail);
 app.use('/create-neomail', sendNeomail);
 app.use('/login', login);
-
-app.use(function(req, res, err, next) {
-  if (err) {
-      console.log(err);
-  }
-  next(err);
-});
+app.use('/logout', login);
 
 module.exports = app;
 function checkSignIn(req, res) {
@@ -72,6 +67,8 @@ function checkSignIn(req, res) {
     res.redirect('/login');
   }
 }
+
+
 app.post('/processing-neomail', checkSignIn, function(req, res) {
   var username = 'mochadroppe';
   var recipients = req.body.states;
@@ -119,7 +116,6 @@ app.post('/processing-neomail', checkSignIn, function(req, res) {
           if (err) {
             res.render('./routes/test', {resp:resp});
           }
-          //  console.log(resp);
           res.render('test', {resp:resp});
         });
       });
