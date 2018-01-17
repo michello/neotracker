@@ -13,6 +13,7 @@ neomails structure:
 }
 */
 
+
 sql = "SELECT * FROM neomail;";
 db.query(sql, function(err, result) {
   var id = 0;

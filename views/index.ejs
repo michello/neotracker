@@ -79,8 +79,9 @@
        var theWeeks = <%- JSON.stringify(weeks) %>;
        var theDays = [];
        var thePosts = [];
-       var myChart;
+
        $(".week").on("click", function(){
+
          for (i=0; i<7; i++) {
            var day = moment($(this)[0].id).add(i, 'day').format('YYYY-MM-DD');
            var dayAfter = moment(day).add(1, 'day').format('YYYY-MM-DD');
@@ -93,13 +94,7 @@
          }
 
          var ctx = document.getElementById("graph").getContext('2d');
-         if (myChart) {
-            myChart.clear();
-            myChart.destroy();
-            console.log(typeof myChart);
-         }
-
-         myChart = new Chart(ctx, {
+         var myChart = new Chart(ctx, {
            type: 'bar',
            data: {
             labels: theDays,
@@ -121,7 +116,6 @@
                   }
               }
           });
-
        });
 
     </script>
