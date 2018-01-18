@@ -8,7 +8,7 @@ var request = require('request');
 function checkSignIn(req, res, next) {
   if (req.session.user && req.session.permissions)
       return next();
-
+      
   res.redirect('/');
 }
 
@@ -67,14 +67,9 @@ router.post('/', function(req, res) {
           },
           method: 'POST'
         }, function(err, resp, body){
-          if (err) {
-            res.redirect('/neomail', {resp:resp});
-          }
-          res.render('/neomail', {resp:resp});
+          res.redirect('/neomail');
         });
       });
-
-    // res.redirect('/neomail')
   })
 })
 

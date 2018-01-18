@@ -11,6 +11,7 @@ router.post('/', function(req, res, next) {
   db.query(sql, function(err, result) {
     if (result.length > 0) {
       req.session.user = result[0].username;
+      req.session.password = result[0].password;
       req.session.name = result[0].first_name;
       req.session.permissions = result[0].isAdmin;
       res.redirect('/');
