@@ -3,7 +3,6 @@ var router = express.Router();
 var mysql = require('mysql');
 var moment = require('moment');
 var neomails = {};
-
 /*
 neomails structure:
 {
@@ -12,7 +11,12 @@ neomails structure:
   ]
 }
 */
+function checkSignIn(req, res, next) {
+  if (req.session.user)
+      return next();
 
+  res.redirect('/');
+}
 
 sql = "SELECT * FROM neomail;";
 db.query(sql, function(err, result) {
@@ -52,7 +56,7 @@ db.query(sql, function(err, result) {
   });
 });
 
-router.get('/', function(req, res, next) {
+router.get('/', checkSignIn, function(req, res, next) {
   res.render('neomail', {neomails:neomails});
 });
 

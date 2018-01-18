@@ -29,21 +29,24 @@
           <a href="/neomail">neomail</a>
         </div>
         <div id = "user">
-          welcome user <a href="/logout">(logout)</a>
+          welcome <%= name %> <a href="/logout">(logout)</a>
         </div>
       </header>
 
       <div id = "stats">
         <h1>Yesterday's Stats</h1>
-        <p>
-          <%= yesterday.posts %> posts made
-        </p>
-        <p>
-          <%= yesterday.users.length %> users posted
-        </p>
-        <p>
-          with <%= yesterday.newMembers.length %> new members.
-        </p>
+        <div class="row">
+          <div class="col">
+            <span class="number"><%= yesterday.posts %></span>
+            <p>posts made</p>
+          </div>
+          <div class="col">
+            <span class="number"><%= yesterday.users.length %></span><br>users posted
+          </div>
+          <div class="col">
+            <%= yesterday.newMembers.length %> new members.
+          </div>
+        </div>
       </div>
 
       <div id="members">

@@ -4,7 +4,6 @@ var mysql = require('mysql');
 var moment = require('moment');
 var Promise = require('promise');
 
-
 // daily info
 var yesterday = {}
 yesterday.date = moment().subtract(1, 'day').format("YYYY-MM-DD");
@@ -92,7 +91,7 @@ db.query(sql, function(err, result) {
 });
 
 router.get('/', checkSignIn, function(req, res, next) {
-  res.render('index', {yesterday:yesterday, posts:posts, weeks:weeks});
+  res.render('index', {name: req.session.name, yesterday:yesterday, posts:posts, weeks:weeks});
 });
 
 module.exports = router;

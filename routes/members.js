@@ -10,6 +10,15 @@ var current = moment().month();
 var current_month = moment([year, current, 10]).format("YYYY-MM-DD");
 var last_month = moment(current_month).subtract(1, "months").format("YYYY-MM-DD");
 
+
+function checkSignIn(req, res, next) {
+  if (req.session.user)
+      return next();
+
+  res.redirect('/');
+}
+
+
 var dates = [last_month, current_month];
 var info = {};
 dates.forEach(function(date) {
@@ -40,7 +49,7 @@ db.query(sql, function(err, result) {
 
 
 
-router.get('/', function(req, res, next) {
+router.get('/',  checkSignIn, function(req, res, next) {
   res.render('members', {info:info, username:username, dates:dates});
 });
 

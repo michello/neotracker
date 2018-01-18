@@ -11,11 +11,11 @@ router.post('/', function(req, res, next) {
   db.query(sql, function(err, result) {
     if (result.length > 0) {
       req.session.user = result[0].username;
-      req.session.username = result[0].first_name;
+      req.session.name = result[0].first_name;
       req.session.permissions = result[0].isAdmin;
       res.redirect('/');
     } else {
-      res.render('/login', {message: "Invalid credentials!"});
+      res.render('login', {message: "Invalid credentials!"});
     }
   })
 });
