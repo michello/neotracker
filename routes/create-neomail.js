@@ -40,6 +40,10 @@ router.post('/', function(req, res) {
   });
 
   recipients.forEach(function(user) {
+    sql = "INSERT into neomail"
+    db.query(sql, function(err, result) {
+    });
+
     requests.post({
       uri: 'http://www.neopets.com/login.phtml',
       form: {

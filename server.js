@@ -23,7 +23,7 @@ var connection = mysql.createConnection({
 connection.connect();
 global.db = connection;
 
-schedule.scheduleJob({hour: 0, minute: 23}, () => {
+schedule.scheduleJob({hour: 0, minute: 0}, () => {
   if (moment(Date.now()).day() == 1) {
     sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
     db.query(sql);
@@ -40,12 +40,13 @@ var logout = require('./routes/logout');
 
 app.use(cookieParser());
 app.use(cookieSession({
-                    name: 'session'
-                    , secret: randomstring.generate()
-                    , httpOnly: true
-                    , secure: false
-                    , overwrite: false
-}));
+    name: 'session',
+    rolling: true,
+    resave: true,
+    saveUninitialized: false,
+    secret: randomstring.generate()
+  })
+);
 
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/views'));

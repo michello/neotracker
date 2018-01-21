@@ -16,7 +16,7 @@ CREATE TABLE Post(
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE Neomail(
-  id INT,
+  id INT AUTO_INCREMENT,
   date TIMESTAMP,
   sender VARCHAR(20),
   receiver VARCHAR(20),
