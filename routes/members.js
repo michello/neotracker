@@ -50,7 +50,7 @@ db.query(sql, function(err, result) {
 
 
 router.get('/',  checkSignIn, function(req, res, next) {
-  res.render('members', {info:info, username:username, dates:dates});
+  res.render('members', {name: req.session.name, info:info, username:username, dates:dates});
 });
 
 module.exports = router;

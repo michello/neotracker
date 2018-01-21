@@ -8,7 +8,10 @@ var moment = require('moment');
 var bodyParser = require('body-parser');
 var request = require('request');
 var session = require('express-session');
+var randomstring = require("randomstring");
 var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
+var router = express.Router();
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -20,9 +23,8 @@ var connection = mysql.createConnection({
 connection.connect();
 global.db = connection;
 
-schedule.scheduleJob({hour: 0, minute: 1}, () => {
+schedule.scheduleJob({hour: 0, minute: 23}, () => {
   if (moment(Date.now()).day() == 1) {
-
     sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
     db.query(sql);
   }
@@ -36,10 +38,13 @@ var sendNeomail = require('./routes/create-neomail');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
 
-app.use(session({
-  secret: 'work hard',
-  resave: true,
-  saveUninitialized: false
+app.use(cookieParser());
+app.use(cookieSession({
+                    name: 'session'
+                    , secret: randomstring.generate()
+                    , httpOnly: true
+                    , secure: false
+                    , overwrite: false
 }));
 
 app.set('view engine', 'ejs');
@@ -47,10 +52,6 @@ app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/assets'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser());
-
-// app.use(session({secret: "Your secret key"}));
-
 // all the routes/paths
 app.use('/', site);
 app.use('/members', members);
@@ -58,6 +59,8 @@ app.use('/neomail', neomail);
 app.use('/create-neomail', sendNeomail);
 app.use('/login', login);
 app.use('/logout', login);
+
+app.use(router);
 
 module.exports = app;
 

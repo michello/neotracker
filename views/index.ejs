@@ -29,9 +29,14 @@
           <a href="/neomail">neomail</a>
         </div>
         <div id = "user">
-          welcome <%= name %> <a href="/logout">(logout)</a>
+          welcome <%= hello %> <a href="/logout">(logout)</a>
         </div>
       </header>
+      <% if(typeof error !== 'undefined'){ %>
+        <div class="alert alert-warning">
+          <strong>Error: </strong> <%= error %>
+        </div>
+      <% } %>
 
       <div id = "stats">
         <h1>Yesterday's Stats</h1>
@@ -41,10 +46,12 @@
             <p>posts made</p>
           </div>
           <div class="col">
-            <span class="number"><%= yesterday.users.length %></span><br>users posted
+            <span class="number"><%= yesterday.users.length %></span>
+            <p>users posted</p>
           </div>
           <div class="col">
-            <%= yesterday.newMembers.length %> new members.
+            <span class="number"><%= yesterday.newMembers.length %></span>
+            <p>new members joined</p>
           </div>
         </div>
       </div>
@@ -54,6 +61,7 @@
         <p style="float:left;">filter for</p>
 
         <div class="dropdown">
+          <div class="arrow-down"></div>
           <button class="dropbtn">a week</button>
           <div class="dropdown-content">
             <% for (var i = 0; i < weeks.length; i++) { %>
@@ -81,43 +89,59 @@
        var theWeeks = <%- JSON.stringify(weeks) %>;
        var theDays = [];
        var thePosts = [];
+       var myChart;
+       var ctx = $("#graph");
+
+       function createChart(data) {
+           if (myChart) {
+             myChart.destroy();
+
+           }
+           myChart = new Chart(ctx, {
+             type: 'bar',
+             data: {
+              labels: theDays,
+              datasets: [{
+                  label: '# of Posts',
+                  data: data,
+                  backgroundColor: 'rgba(226, 181, 28, 0.2)',
+                  borderColor: 'rgba(226, 181, 28,1)',
+                  borderWidth: 1
+              }]
+            },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero:true
+                            }
+                        }]
+                    }
+                }
+            });
+       }
 
        $(".week").on("click", function(){
-
-         for (i=0; i<7; i++) {
-           var day = moment($(this)[0].id).add(i, 'day').format('YYYY-MM-DD');
-           var dayAfter = moment(day).add(1, 'day').format('YYYY-MM-DD');
-           theDays.push(moment($(this)[0].id).add(i, 'day').format('YYYY-MM-DD'));
-           if (isNaN(dailyPosts[dayAfter] - dailyPosts[day])) {
-               thePosts.push(0);
-           } else {
-             thePosts.push(dailyPosts[dayAfter] - dailyPosts[day]);
+           if (theDays.length > 0) {
+             theDays = [];
+             thePosts = [];
            }
-         }
 
-         var ctx = document.getElementById("graph").getContext('2d');
-         var myChart = new Chart(ctx, {
-           type: 'bar',
-           data: {
-            labels: theDays,
-            datasets: [{
-                label: '# of Posts',
-                data: thePosts,
-                backgroundColor: 'rgba(226, 181, 28, 0.2)',
-                borderColor: 'rgba(226, 181, 28,1)',
-                borderWidth: 1
-            }]
-          },
-              options: {
-                  scales: {
-                      yAxes: [{
-                          ticks: {
-                              beginAtZero:true
-                          }
-                      }]
-                  }
-              }
-          });
+           var label = moment($(this)[0].id).format('YYYY-MM-DD') + " to " +  moment($(this)[0].id).add(6, 'day').format('YYYY-MM-DD');
+
+           $('button.dropbtn').text(label);
+           for (i=0; i<7; i++) {
+             var day = moment($(this)[0].id).add(i, 'day').format('YYYY-MM-DD');
+             var dayAfter = moment(day).add(1, 'day').format('YYYY-MM-DD');
+             theDays.push(moment($(this)[0].id).add(i, 'day').format('YYYY-MM-DD'));
+             if (isNaN(dailyPosts[dayAfter] - dailyPosts[day])) {
+                 thePosts.push(0);
+             } else {
+               thePosts.push(dailyPosts[dayAfter] - dailyPosts[day]);
+             }
+           }
+
+          createChart(thePosts);
        });
 
     </script>

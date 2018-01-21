@@ -12,7 +12,7 @@ neomails structure:
 }
 */
 function checkSignIn(req, res, next) {
-  if (req.session.user)
+  if (req.session.user && req.session.permissions)
       return next();
 
   res.redirect('/');
@@ -57,7 +57,7 @@ db.query(sql, function(err, result) {
 });
 
 router.get('/', checkSignIn, function(req, res, next) {
-  res.render('neomail', {neomails:neomails});
+  res.render('neomail', {name: req.session.user, neomails:neomails});
 });
 
 module.exports = router;

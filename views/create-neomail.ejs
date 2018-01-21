@@ -58,7 +58,7 @@
           <a href="/neomail">neomail</a>
         </div>
         <div id = "user">
-          welcome user <a href="/logout">(logout)</a>
+          welcome <b><%= name %></b> <a href="/logout">(logout)</a>
         </div>
       </header>
         <h1>Neomail <a href="/neomail">Sent</a><a href="/create-neomail">Create</a></h1>
@@ -73,7 +73,7 @@
             <div class="col">
 
               <p>3. Select which users to send:</p>
-              <select class="js-example-basic-multiple" name="states[]" multiple="multiple">
+              <select class="js-example-basic-multiple" name="recipients" multiple="multiple">
                 <% for (var i = 0; i < username.length; i++) { %>
                   <option value=<%= username[i] %>><%= username[i] %></option>
                 <% }%>
