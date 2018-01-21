@@ -17,31 +17,15 @@ function checkSignIn(req, res, next) {
 
   res.redirect('/');
 }
+router.get('/', checkSignIn, function(req, res, next) {
 
-sql = "SELECT * FROM neomail;";
-db.query(sql, function(err, result) {
-  var id = 0;
-  result.forEach(function(neomail) {
-    var date = moment(neomail.date).format("YYYY-MM-DD");
-    if (!neomails[date]) {
-      neomails[date] = []
-      neomails[date].push({
-        'id': id,
-        'title': neomail.subj_line,
-        'sender': neomail.sender,
-        'content': neomail.content,
-        'recipients': []
-      });
-      neomails[date][0].recipients.push(neomail.receiver);
-    } else {
-      var flag = false;
-      neomails[date].forEach(function(mail) {
-        if (mail.title === neomail.subj_line && mail.sender === neomail.sender && mail.content === neomail.content) {
-          mail.recipients.push(neomail.receiver);
-          flag = true;
-        }
-      });
-      if (!flag) {
+  sql = "SELECT * FROM neomail;";
+  db.query(sql, function(err, result) {
+    var id = 0;
+    result.forEach(function(neomail) {
+      var date = moment(neomail.date).format("YYYY-MM-DD");
+      if (!neomails[date]) {
+        neomails[date] = []
         neomails[date].push({
           'id': id,
           'title': neomail.subj_line,
@@ -49,14 +33,32 @@ db.query(sql, function(err, result) {
           'content': neomail.content,
           'recipients': []
         });
-        neomails[date][Object.keys(neomails[date]).length - 1].recipients.push(neomail.receiver);
+        neomails[date][0].recipients.push(neomail.receiver);
+      } else {
+        var flag = false;
+        neomails[date].forEach(function(mail) {
+          if (mail.title === neomail.subj_line && mail.sender === neomail.sender && mail.content === neomail.content) {
+            mail.recipients.push(neomail.receiver);
+            flag = true;
+          }
+        });
+        if (!flag) {
+          neomails[date].push({
+            'id': id,
+            'title': neomail.subj_line,
+            'sender': neomail.sender,
+            'content': neomail.content,
+            'recipients': []
+          });
+          neomails[date][Object.keys(neomails[date]).length - 1].recipients.push(neomail.receiver);
+        }
       }
-    }
-    id += 1;
+      id += 1;
+    });
   });
-});
 
-router.get('/', checkSignIn, function(req, res, next) {
+
+  //getNeomail();
   res.render('neomail', {name: req.session.user, neomails:neomails});
 });
 

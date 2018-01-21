@@ -5,7 +5,6 @@ var moment = require('moment');
 var username = [];
 var request = require('request');
 
-
 function checkSignIn(req, res, next) {
   if (req.session.user && req.session.permissions)
       return next();
@@ -27,7 +26,8 @@ router.get('/', checkSignIn, function(req, res, next) {
 
 router.post('/', function(req, res) {
   var recipients = [];
-  if (typeof req.body.recipients === "string"  || req.body.recipients instanceof String) {
+
+	if (typeof req.body.recipients === "string"  || req.body.recipients instanceof String) {
     recipients.push(req.body.recipients);
   } else {
     recipients = req.body.recipients;
@@ -40,10 +40,6 @@ router.post('/', function(req, res) {
   });
 
   recipients.forEach(function(user) {
-    sql = "INSERT into neomail"
-    db.query(sql, function(err, result) {
-    });
-
     requests.post({
       uri: 'http://www.neopets.com/login.phtml',
       form: {
@@ -57,6 +53,8 @@ router.post('/', function(req, res) {
       method: 'POST'
 
     }, function(err, resp, body) {
+				sql = 'INSERT INTO neomail (date, sender, receiver, subj_line, content) VALUES (?, ?, ?, ?, ?)';
+				db.query(sql, [moment(Date.now()).format("YYYY-MM-DD"), req.session.user, user, req.body.neomail_title, req.body.neomail_content]);
         requests.post({
           uri: "http://www.neopets.com/process_neomessages.phtml",
           form: {
@@ -75,12 +73,6 @@ router.post('/', function(req, res) {
         });
       });
   })
-
-
-
-
-
-
 })
 
 module.exports = router;

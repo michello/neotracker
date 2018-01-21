@@ -37,6 +37,7 @@ var neomail = require('./routes/neomail');
 var sendNeomail = require('./routes/create-neomail');
 var login = require('./routes/login');
 var logout = require('./routes/logout');
+var register = require('./routes/register');
 
 app.use(cookieParser());
 app.use(cookieSession({
@@ -60,6 +61,7 @@ app.use('/neomail', neomail);
 app.use('/create-neomail', sendNeomail);
 app.use('/login', login);
 app.use('/logout', login);
+app.use('/register', register);
 
 app.use(router);
 
