@@ -29,7 +29,8 @@ router.post('/', function(req, res) {
       err = "You are not authorized to create an account!";
     }
   })
-  res.render('/login', {error: err});
+  
+  res.redirect('/login', {error: err});
 });
 
 
