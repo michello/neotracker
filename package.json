@@ -7,11 +7,14 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+  "engine": {
+    "node":"6.11.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ml4963/neotracker.git"
   },
-  "author": "",
+  "author": "Michelle Lam",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ml4963/neotracker/issues"

@@ -136,6 +136,8 @@
              if (isNaN(dailyPosts[dayAfter] - dailyPosts[day])) {
                  thePosts.push(0);
              } else {
+               console.log(day + " - " + dailyPosts[day]);
+               console.log(dayAfter + " - " + dailyPosts[dayAfter]);
                thePosts.push(dailyPosts[dayAfter] - dailyPosts[day]);
              }
            }

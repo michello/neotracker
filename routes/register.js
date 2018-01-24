@@ -4,11 +4,11 @@ var mysql = require('mysql');
 var md5 = require('md5');
 
 function checkSignIn(req, res, next) {
-  if (req.session.user) {
-    var err = "You're already signed in!";
-    res.redirect('/', {error: err});
-  } else {
+  if (!req.session.user) {
     return next();
+  } else {
+    var warning = "You're already signed in!";
+    res.render('login', {error: warning});
   }
 }
 
@@ -19,19 +19,23 @@ router.get('/', checkSignIn, function(req, res, next) {
 router.post('/', function(req, res) {
   var user = req.body.username;
   var password = req.body.password;
-  var err = "";
+  var warning = false;
   sql = "SELECT * FROM user WHERE user=? AND isAdmin=1";
   db.query(sql, [user], function(err, result) {
-    if (result) {
-      sql = "UPDATE user SET password ='"+ md5(password) +" WHERE username='"+user+"'";
-      db.query(sql);
+    if (!result) {
+      warning = true;
     } else {
-      err = "You are not authorized to create an account!";
+      console.log("hello this is",result);
+      sql = "UPDATE user SET password =? WHERE username=?";
+      db.query(sql, [md5(password), user]);
     }
-  })
-  
-  res.redirect('/login', {error: err});
+  });
+  if (warning) {
+    res.render('register', {error: "You do not have permissions to register."});
+  } else {
+    console.log(warning);
+    res.redirect('/login');
+  }
 });
-
 
 module.exports = router;

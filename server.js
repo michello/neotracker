@@ -12,6 +12,7 @@ var randomstring = require("randomstring");
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var router = express.Router();
+var port = process.env.PORT || 8000;
 
 var connection = mysql.createConnection({
   host: 'localhost',
@@ -23,7 +24,7 @@ var connection = mysql.createConnection({
 connection.connect();
 global.db = connection;
 
-schedule.scheduleJob({hour: 0, minute: 0}, () => {
+schedule.scheduleJob({hour:0, minute:11}, () => {
   if (moment(Date.now()).day() == 1) {
     sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
     db.query(sql);
@@ -67,6 +68,7 @@ app.use(router);
 
 module.exports = app;
 
-var listener = app.listen(8000, function(){
+
+var listener = app.listen(port, function(){
   console.log('Listening on port ' + listener.address().port);
 });

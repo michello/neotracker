@@ -4,7 +4,8 @@ var mysql = require('mysql');
 var md5 = require('md5');
 
 router.get('/', function(req, res, next) {
-  res.render('login');
+  var error ="";
+  res.render('login', {error:error});
 });
 
 router.post('/', function(req, res, next) {
@@ -17,7 +18,7 @@ router.post('/', function(req, res, next) {
       req.session.permissions = result[0].isAdmin;
       res.redirect('/');
     } else {
-      res.render('login', {message: "Invalid credentials!"});
+      res.render('login', {error: "Invalid credentials!"});
     }
   })
 });
