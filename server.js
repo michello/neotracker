@@ -24,7 +24,7 @@ var connection = mysql.createConnection({
 connection.connect();
 global.db = connection;
 
-schedule.scheduleJob({hour:0, minute:11}, () => {
+schedule.scheduleJob({hour:0, minute:20}, () => {
   if (moment(Date.now()).day() == 1) {
     sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
     db.query(sql);
