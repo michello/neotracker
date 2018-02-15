@@ -15,13 +15,17 @@ var router = express.Router();
 var port = process.env.PORT || 8000;
 
 var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'neotracker_db'
+  host: 'us-cdbr-iron-east-05.cleardb.net',
+  user: 'bce99c0ed8a1cf',
+  password: '70e43094',
+  database: 'heroku_b9cc841585d204c'
 });
 
-connection.connect();
+connection.connect(function(err) {
+  if (err) throw err;
+  console.log("Connected!");
+});
+
 global.db = connection;
 schedule.scheduleJob({hour:0, minute:0}, () => {
   if (moment(Date.now()).day() == 1) {

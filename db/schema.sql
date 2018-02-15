@@ -22,7 +22,7 @@ CREATE TABLE Neomail(
   receiver VARCHAR(20),
   subj_line VARCHAR(30),
   content VARCHAR(1400),
-
+  PRIMARY KEY (id), 
   FOREIGN KEY (sender) REFERENCES User (username),
   FOREIGN KEY (receiver) REFERENCES User (username)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
