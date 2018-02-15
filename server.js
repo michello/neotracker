@@ -23,8 +23,7 @@ var connection = mysql.createConnection({
 
 connection.connect();
 global.db = connection;
-
-schedule.scheduleJob({hour:0, minute:20}, () => {
+schedule.scheduleJob({hour:0, minute:0}, () => {
   if (moment(Date.now()).day() == 1) {
     sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
     db.query(sql);
@@ -32,6 +31,7 @@ schedule.scheduleJob({hour:0, minute:20}, () => {
   monitor.start();
 });
 
+// monitor.start();
 var members = require('./routes/members');
 var site = require('./routes/index');
 var neomail = require('./routes/neomail');
@@ -55,6 +55,7 @@ app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/assets'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 // all the routes/paths
 app.use('/', site);
 app.use('/members', members);

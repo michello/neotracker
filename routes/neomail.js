@@ -59,7 +59,7 @@ router.get('/', checkSignIn, function(req, res, next) {
 
 
   //getNeomail();
-  res.render('neomail', {name: req.session.user, neomails:neomails});
+  res.render('neomail', {name: req.session.name, neomails:neomails});
 });
 
 module.exports = router;

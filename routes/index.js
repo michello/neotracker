@@ -25,7 +25,9 @@ db.query(sql, function(err, result) {
   return(yesterday.posts);
 });
 
-sql = "SELECT username FROM user WHERE isActive=1";
+var post_yesterday = 0;
+var post_today;
+sql = "SELECT username FROM user";
 db.query(sql, function(err, result) {
   // iterating through each member
   result.forEach(function(person) {
@@ -33,6 +35,7 @@ db.query(sql, function(err, result) {
     // getting the post count of the person today
     db.query(sql, function(err, result) {
       if (result.length > 0) {
+        post_yesterday = result[0].post_count;
         yesterday.members[String(person.username)] = result[0].post_count;
         yesterday.posts += result[0].post_count;
       //  console.log(yesterday.posts);
@@ -80,7 +83,7 @@ db.query(sql, function(err, result) {
 
 router.get('/', function(req, res, next) {
   if (Object.keys(req.session).length > 0) {
-    res.render('index', {hello:req.session.user,yesterday:yesterday, posts:posts, weeks:weeks});
+    res.render('index', {name: req.session.name,yesterday:yesterday, posts:posts, weeks:weeks});
   } else {
     var error = "You need to be logged in to view this page!";
     res.render('login', { error: error});

@@ -55,19 +55,30 @@ exports.start = function () {
       },
       method: 'GET'
     }, function(err, resp, body){
-
       const $ = cheerio.load(body);
       var rowData;
+      var tableData = $('table')[15];
+/*
+      switch (tableData.textContent.indexOf("There is currently")) {
+        case -1:
+          tableData = $('table')[14]
+      }
 
-      tableData = $('table')[15];
+      rowData = $(tableData).find('tr');
+      console.log(rowData[0].children[0].data);
+
+      if (rowData[0].indexOf("There is currently") === -1) {
+        console.log(rowData[0]);
+        tableData = $('table')[14];
+      } else {
+        tableData = $('table')[15];
+      } */
+
 
       rowData = $(tableData).find('tr');
 
-
-
       for (j=1;j<(rowData.length); j++) {
         let data = {}
-        // "YYYY-MM-DD HH:mm:ss"
         data.date = moment(Date.now()).format("YYYY-MM-DD");
         let account = rowData[j].children[0].children[0].children[0];
         let num_post;
@@ -76,17 +87,9 @@ exports.start = function () {
         } else {
           data.username = account.next.next.children[0].children[0].data;
         }
-
-
-
         data.post_count = rowData[j].children[0].next.next.next.children[0].children[0].data;
-
-        // makes sure users are created
         userExists(data);
-
-
-      };
-
+      }
 
     });
   });

@@ -9,7 +9,7 @@ an application that tracks and monitors guild activity
 5. [ ] Integrate ReactJS if available/time
 
 ## to do
-- [ ] remove duplicates for posts on `01-23-2018`
+- [x] remove duplicates for posts on `01-23-2018`
 - [ ] fix `monitor.js` so that it accounts for when there is a poll, which means we have to look at the 15th table, not 14th)
 
 ## porpoise 🐬

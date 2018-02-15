@@ -21,7 +21,7 @@ db.query(sql, function(err, result) {
 });
 
 router.get('/', checkSignIn, function(req, res, next) {
-  res.render('create-neomail', {name: req.session.user, username:username});
+  res.render('create-neomail', {name: req.session.name, username:username});
 });
 
 router.post('/', function(req, res) {
@@ -39,7 +39,7 @@ router.post('/', function(req, res) {
     followAllRedirects: true
   });
 
-  recipients.forEach(function(user) {
+
     requests.post({
       uri: 'http://www.neopets.com/login.phtml',
       form: {
@@ -53,26 +53,31 @@ router.post('/', function(req, res) {
       method: 'POST'
 
     }, function(err, resp, body) {
-				sql = 'INSERT INTO neomail (date, sender, receiver, subj_line, content) VALUES (?, ?, ?, ?, ?)';
-				db.query(sql, [moment(Date.now()).format("YYYY-MM-DD"), req.session.user, user, req.body.neomail_title, req.body.neomail_content]);
-        requests.post({
-          uri: "http://www.neopets.com/process_neomessages.phtml",
-          form: {
-            recipient: user,
-            subject: req.body.neomail_title,
-            message_body: req.body.neomail_content,
-            message_type: "notitle",
-            neofriends: ""
-          },
-          headers: {
-              'Referer': "http://home.neopets.com/neomessages.phtml?type=send"
-          },
-          method: 'POST'
-        }, function(err, resp, body){
-          res.redirect('/neomail');
-        });
-      });
+      recipients.forEach(function(user) {
+				    sql = 'INSERT INTO neomail (date, sender, receiver, subj_line, content) VALUES (?, ?, ?, ?, ?)';
+				    db.query(sql, [moment(Date.now()).format("YYYY-MM-DD"), req.session.user, user, req.body.neomail_title, req.body.neomail_content]);
+
+
+            requests.post({
+              uri: "http://www.neopets.com/process_neomessages.phtml",
+              form: {
+                recipient: user,
+                subject: req.body.neomail_title,
+                message_body: req.body.neomail_content,
+                message_type: "notitle",
+                neofriends: ""
+              },
+              headers: {
+                  'Referer': "http://home.neopets.com/neomessages.phtml?type=send"
+              },
+              method: 'POST'
+            })
+          });
+      })
+
+      res.redirect('/neomail');
+
   })
-})
+//})
 
 module.exports = router;

@@ -29,7 +29,7 @@
           <a href="/neomail">neomail</a>
         </div>
         <div id = "user">
-          welcome <%= hello %> <a href="/logout">(logout)</a>
+          welcome <b><%= name.toLowerCase() %></b> <a href="/logout">(logout)</a>
         </div>
       </header>
       <% if(typeof error !== 'undefined'){ %>
@@ -136,8 +136,8 @@
              if (isNaN(dailyPosts[dayAfter] - dailyPosts[day])) {
                  thePosts.push(0);
              } else {
-               console.log(day + " - " + dailyPosts[day]);
-               console.log(dayAfter + " - " + dailyPosts[dayAfter]);
+               // console.log(day + " - " + dailyPosts[day]);
+               // console.log(dayAfter + " - " + dailyPosts[dayAfter]);
                thePosts.push(dailyPosts[dayAfter] - dailyPosts[day]);
              }
            }
