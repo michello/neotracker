@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 const path = require("path");
 var app = express();
@@ -12,7 +14,7 @@ var randomstring = require("randomstring");
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var router = express.Router();
-// var port = process.env.PORT; //|| 8000;
+const port = process.env.PORT || 8000;
 
 var connection = mysql.createConnection({
   host: 'us-cdbr-iron-east-05.cleardb.net',
@@ -74,6 +76,6 @@ app.use(router);
 module.exports = app;
 
 
-var listener = app.listen(process.env.PORT, function(){
-  console.log('Listening on port ' + listener.address().port);
+app.listen(port, () => {
+  console.log('Listening on port ', port);
 });
