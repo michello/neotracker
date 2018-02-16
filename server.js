@@ -12,7 +12,7 @@ var randomstring = require("randomstring");
 var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var router = express.Router();
-var port = process.env.PORT || 8000;
+// var port = process.env.PORT; //|| 8000;
 
 var connection = mysql.createConnection({
   host: 'us-cdbr-iron-east-05.cleardb.net',
@@ -74,6 +74,6 @@ app.use(router);
 module.exports = app;
 
 
-var listener = app.listen(port, function(){
+var listener = app.listen(process.env.PORT, function(){
   console.log('Listening on port ' + listener.address().port);
 });
