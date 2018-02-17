@@ -34,7 +34,8 @@ var connection = mysql.createConnection({
   database: 'neotracker_db'
 });
 */
-connection.connect(function(err) {
+
+connection.getConnection(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
