@@ -15,7 +15,7 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var router = express.Router();
 const port = process.env.PORT || 8000;
-/*
+
 var connection = mysql.createPool({
   connectionLimit: 1,
   host: 'us-cdbr-iron-east-05.cleardb.net',
@@ -23,7 +23,7 @@ var connection = mysql.createPool({
   password: '70e43094',
   database: 'heroku_b9cc841585d204c'
 });
-*/
+/*
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -35,7 +35,7 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
-
+*/
 global.db = connection;
 
 schedule.scheduleJob({hour:0, minute:0}, () => {
