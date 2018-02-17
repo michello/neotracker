@@ -22,9 +22,6 @@
         height: 200px;
         resize: none;
       }
-      input[type="text"] {
-        width: 300px;
-      }
 
       .right {
         float:right;
@@ -53,7 +50,7 @@
           <span id="neo">NEO</span><span id="tracker">TRACKER</span>
         </div>
       </header>
-        <h1>Register</h1>
+        <h1>Credentials <a href="/login">Login</a><a href="/register">Register</a></h1>
         <% if(typeof error !== 'undefined'){ %>
           <div class="alert alert-warning">
             <strong>Error: </strong> <%= error %>
@@ -68,7 +65,7 @@
             </div>
             <div class="col">
               <p>2. Enter a password (preferably the one you use for Neopets):</p>
-              <input type="text" type="password" name="password" placeholder="password" required/>
+              <input type="password" name="password" placeholder="password" required/>
             </div>
           </div>
           <p>

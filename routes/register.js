@@ -21,25 +21,24 @@ router.post('/', function(req, res) {
   var user = req.body.username;
   var password = req.body.password;
 
-  sql = "SELECT * FROM user WHERE user=? AND isAdmin=1";
+  sql = "SELECT * FROM user WHERE username=? AND isAdmin=1";
   db.query(sql, [user], function(err, result) {
+    
     if (!result) {
       warning = true;
     } else {
       warning = false;
-      console.log("hello this is",result);
       sql = "UPDATE user SET password =? WHERE username=?";
       db.query(sql, [md5(password), user]);
     }
   });
 
-  console.log(warning);
   if (warning) {
-
     res.render('register', {error: "You do not have permissions to register."});
   } else {
     res.redirect('/login');
   }
+
 });
 
 module.exports = router;

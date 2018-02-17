@@ -40,7 +40,7 @@ dates.forEach(function(date) {
 });
 
 
-sql = "SELECT username FROM user";
+sql = "SELECT username FROM user WHERE isActive=1";
 db.query(sql, function(err, result) {
   result.forEach(function(user){
     username.push(user.username);

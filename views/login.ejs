@@ -22,9 +22,6 @@
         height: 200px;
         resize: none;
       }
-      input[type="text"] {
-        width: 300px;
-      }
 
       .right {
         float:right;
@@ -53,8 +50,8 @@
           <span id="neo">NEO</span><span id="tracker">TRACKER</span>
         </div>
       </header>
-        <h1>Login</h1>
-        <% if(typeof error !== 'undefined'){ %>
+        <h1>Credentials <a href="/login">Login</a><a href="/register">Register</a></h1>
+        <% if(error.length > 0){ %>
           <div class="alert alert-warning">
             <strong>Error: </strong> <%= error %>
           </div>
@@ -73,7 +70,7 @@
             </div>
           </div>
           <p>
-          <center><input type="submit" value =Submit class="button"/></center>
+          <input type="submit" value =Submit class="button"/>
         </p>
         </form>
 
