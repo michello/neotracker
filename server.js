@@ -17,23 +17,13 @@ var router = express.Router();
 const port = process.env.PORT || 8000;
 
 
-var connection = mysql.createPool({
-  connectionLimit: 1,
-  host: 'us-cdbr-iron-east-05.cleardb.net',
-  user: 'bce99c0ed8a1cf',
-  password: '70e43094',
-  database: 'heroku_b9cc841585d204c'
-});
-
-
-/*
 var connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'neotracker_db'
 });
-*/
+
 
 connection.getConnection(function(err) {
   if (err) throw err;
