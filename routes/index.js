@@ -16,8 +16,11 @@ function dayPost(date, yesterday) {
   data['members'] = 0;
   // var tracker;
   var sql = "SELECT username, post_count FROM post WHERE date =?";
+
   // getting all the names and post count of the members who posted today
   db.query(sql, [date], function(err, result) {
+  //db.query(sql, function(err, result) {
+
     if (typeof result !== "undefined") {
       result.forEach(function(info) {
         var tracker = info.post_count;
@@ -51,7 +54,7 @@ db.query(sql, function(err, result) {
     for (var i = 0; i < 7; i++) {
       var new_mem = 0;
       posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")] = {};
-      posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")] = dayPost(moment(week.week).add(i+1, 'day').format("YYYY-MM-DD"), moment(week.week).add(i, 'day').format("YYYY-MM-DD"));
+      posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")] = dayPost(moment(week.week).add(i+1, 'day').format("YYYY-MM-DD"), moment(week.week).add(i, 'day').format("YYYY-MM-DD"));//.toISOString());
       sql = "SELECT COUNT(*) as new_mem FROM user WHERE joined = ?;";
       db.query(sql, [moment(week.week).add(i, 'day').format("YYYY-MM-DD")], function(err, result){
         new_mem = result[0]['new_mem'];
@@ -65,6 +68,7 @@ db.query(sql, function(err, result) {
 router.get('/', function(req, res, next) {
 
   if (Object.keys(req.session).length > 0) {
+    // console.log(posts);
     res.render('index', {name: req.session.name, posts:posts, weeks:weeks, yesterday:moment().subtract(1, 'day').format("YYYY-MM-DD")});
   } else {
     var error = "You need to be logged in to view this page!";
