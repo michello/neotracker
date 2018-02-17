@@ -16,19 +16,52 @@ var cookieSession = require('cookie-session');
 var router = express.Router();
 const port = process.env.PORT || 8000;
 
-var connection = mysql.createConnection({
+var connection = mysql.createPool({
+  connectionLimit: 10,
   host: 'us-cdbr-iron-east-05.cleardb.net',
   user: 'bce99c0ed8a1cf',
   password: '70e43094',
   database: 'heroku_b9cc841585d204c'
+});
+/*
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'neotracker_db'
 });
 
 connection.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
 });
-
+*/
 global.db = connection;
+/*
+function handleDisconnect() {
+  connection = mysql.createConnection(db_config); // Recreate the connection, since
+                                                  // the old one cannot be reused.
+
+  connection.connect(function(err) {              // The server is either down
+    if(err) {                                     // or restarting (takes a while sometimes).
+      console.log('error when connecting to db:', err);
+      setTimeout(handleDisconnect, 2000); // We introduce a delay before attempting to reconnect,
+    }                                     // to avoid a hot loop, and to allow our node script to
+  });                                     // process asynchronous requests in the meantime.
+                                          // If you're also serving http, display a 503 error.
+  connection.on('error', function(err) {
+    console.log('db error', err);
+    if(err.code === 'PROTOCOL_CONNECTION_LOST') { // Connection to the MySQL server is usually
+      handleDisconnect();                         // lost due to either server restart, or a
+    } else {                                      // connnection idle timeout (the wait_timeout
+      throw err;                                  // server variable configures this)
+    }
+  });
+}
+
+handleDisconnect();
+*/
+
 schedule.scheduleJob({hour:0, minute:0}, () => {
   if (moment(Date.now()).day() == 1) {
     sql = "INSERT INTO week (week) VALUES ('"+ moment(Date.now()).format("YYYY-MM-DD") + "')"
@@ -74,7 +107,6 @@ app.use('/register', register);
 app.use(router);
 
 module.exports = app;
-
 
 app.listen(port, () => {
   console.log('Listening on port ', port);

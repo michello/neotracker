@@ -15,7 +15,7 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
   </head>
   <body>
     <div id = "content">
@@ -37,20 +37,19 @@
           <strong>Error: </strong> <%= error %>
         </div>
       <% } %>
-
       <div id = "stats">
         <h1>Yesterday's Stats</h1>
         <div class="row">
           <div class="col">
-            <span class="number"><%= yesterday.posts %></span>
+            <span class="number"><%= posts[yesterday].post_count %></span>
             <p>posts made</p>
           </div>
           <div class="col">
-            <span class="number"><%= yesterday.users.length %></span>
+            <span class="number"><%= posts[yesterday].members %></span>
             <p>users posted</p>
           </div>
           <div class="col">
-            <span class="number"><%= yesterday.newMembers.length %></span>
+            <span class="number"><%= posts[yesterday].new_mem %></span>
             <p>new members joined</p>
           </div>
         </div>
@@ -79,22 +78,18 @@
 
 
     </div>
-
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.js"></script>
     <script>
-       var dailyPosts = <%- JSON.stringify(posts) %>;
+       var posts = <%- JSON.stringify(posts) %>;
        var theWeeks = <%- JSON.stringify(weeks) %>;
        var theDays = [];
        var thePosts = [];
        var myChart;
        var ctx = $("#graph");
-
        function createChart(data) {
            if (myChart) {
              myChart.destroy();
-
            }
            myChart = new Chart(ctx, {
              type: 'bar',
@@ -119,33 +114,35 @@
                 }
             });
        }
-
        $(".week").on("click", function(){
            if (theDays.length > 0) {
              theDays = [];
              thePosts = [];
            }
-
+           console.log(posts);
            var label = moment($(this)[0].id).format('YYYY-MM-DD') + " to " +  moment($(this)[0].id).add(6, 'day').format('YYYY-MM-DD');
-
            $('button.dropbtn').text(label);
            for (i=0; i<7; i++) {
              var day = moment($(this)[0].id).add(i, 'day').format('YYYY-MM-DD');
-             var dayAfter = moment(day).add(1, 'day').format('YYYY-MM-DD');
              theDays.push(moment($(this)[0].id).add(i, 'day').format('YYYY-MM-DD'));
-             if (isNaN(dailyPosts[dayAfter] - dailyPosts[day])) {
+             // console.log(posts[day]);
+             if (typeof posts[day] !== "undefined") {
+                thePosts.push(posts[day]['post_count']);
+             }
+             // thePosts.push(posts[day]['post_count']);
+             /*
+             if (isNaN(posts[day].post_count)) {
                  thePosts.push(0);
              } else {
                // console.log(day + " - " + dailyPosts[day]);
                // console.log(dayAfter + " - " + dailyPosts[dayAfter]);
-               thePosts.push(dailyPosts[dayAfter] - dailyPosts[day]);
-             }
+               thePosts.push(posts[day].post_count);
+             } */
            }
-
           createChart(thePosts);
        });
-
     </script>
+
   </body>
 
 </html>

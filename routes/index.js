@@ -3,87 +3,78 @@ var router = express.Router();
 var mysql = require('mysql');
 var moment = require('moment');
 var Promise = require('promise');
-
-// daily info
-var yesterday = {}
-yesterday.date = moment().subtract(1, 'day').format("YYYY-MM-DD");
-yesterday.today = moment(Date.now()).format("YYYY-MM-DD");
-yesterday.posts = 0;
-yesterday.users = [];
-yesterday.members = {}
-yesterday.newMembers = []
-
+var today_post;
+var member;
+var yesterday;
 // weekly info
 var weeks = [];
 var posts = {}
 
-var sql = "SELECT SUM(post_count) as past_count FROM post WHERE date = '" + yesterday.date +"'";
-db.query(sql, function(err, result) {
-  if (result) {
-      yesterday.posts -= result[0].past_count;
-  }
-  return(yesterday.posts);
-});
+function dayPost(date, yesterday) {
+  var data = {};
+  data['post_count'] = 0;
+  data['members'] = 0;
+  // var tracker;
+  var sql = "SELECT username, post_count FROM post WHERE date =?";
+  // getting all the names and post count of the members who posted today
+  db.query(sql, [date], function(err, result) {
+    if (typeof result !== "undefined") {
+      result.forEach(function(info) {
+        var tracker = info.post_count;
+        // the posts for the current day
+        data['post_count'] += info.post_count;
+        sql = "SELECT post_count FROM post WHERE date=? AND username=?";
+        db.query(sql, [yesterday, info.username], function(err, result){
 
-var post_yesterday = 0;
-var post_today;
-sql = "SELECT username FROM user";
-db.query(sql, function(err, result) {
-  // iterating through each member
-  result.forEach(function(person) {
-    sql = "SELECT post_count, username FROM post WHERE username = '"+person.username+"' AND date = '" + yesterday.today +"'";
-    // getting the post count of the person today
-    db.query(sql, function(err, result) {
-      if (result.length > 0) {
-        post_yesterday = result[0].post_count;
-        yesterday.members[String(person.username)] = result[0].post_count;
-        yesterday.posts += result[0].post_count;
-      //  console.log(yesterday.posts);
-        sql = "SELECT post_count, username FROM post WHERE username ='"+person.username+"' AND date= '" + yesterday.date + "'";
-        // getting the post count of the person before
-        db.query(sql, function(err, result) {
-          if (result.length > 0) {
-            if (result[0].post_count < yesterday.members[String(person.username)]) {
-              yesterday.users.push(person.username);
+          if (typeof result[0] !== "undefined") {
+
+            // if the posts for the day before is less than current day, user made a post
+            if (tracker > result[0]['post_count']) {
+                data['members'] += 1;
             }
+            data['post_count'] -= result[0]['post_count'];
           }
-        });
-      }
 
-
-
-    })
+        })
+      });
+    }
   });
+  return(data);
+}
 
-  // can just count the number of users who joined instead of creating an array
-  // fix later
-  sql = "SELECT * FROM user WHERE joined = '" + yesterday.today + "'";
-  db.query(sql, function(err, result) {
-    result.forEach(function(item){
-      yesterday.newMembers.push(item.username);
-    });
-  });
+/*
 
-});
+posts[date][]
+*/
 
 sql = "SELECT * FROM week ORDER BY week desc limit 5";
 db.query(sql, function(err, result) {
   // looking at each available week
   result.forEach(function(week) {
     weeks.push(moment(week.week).format("YYYY-MM-DD"));
+    // going through each day of the week
+    for (var i = 0; i < 7; i++) {
+      var new_mem = 0;
+      posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")] = {};
+      posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")] = dayPost(moment(week.week).add(i, 'day').format("YYYY-MM-DD"), moment(week.week).add(i, 'day').subtract(1, 'day').format("YYYY-MM-DD"));
+      sql = "SELECT COUNT(*) as new_mem FROM user WHERE joined = ?;";
+      db.query(sql, [moment(week.week).add(i, 'day').format("YYYY-MM-DD")], function(err, result){
+        new_mem = result[0]['new_mem'];
+        /*
+        posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")]['new_mem'];
+        posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")]['new_mem'] = result[0]['new_mem'];
+        */
+      });
+      posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")]['new_mem'] = new_mem;
+
+    }
   })
 });
 
-sql = "SELECT date, SUM(post_count) as post_total FROM post GROUP BY date;";
-db.query(sql, function(err, result) {
-  result.forEach(function(week) {
-    posts[moment(week.date).format("YYYY-MM-DD")] = week.post_total;
-  });
-});
-
 router.get('/', function(req, res, next) {
+
   if (Object.keys(req.session).length > 0) {
-    res.render('index', {name: req.session.name,yesterday:yesterday, posts:posts, weeks:weeks});
+    res.render('index', {name: req.session.name, posts:posts, weeks:weeks, yesterday:moment().subtract(1, 'day').format("YYYY-MM-DD")});
   } else {
     var error = "You need to be logged in to view this page!";
     res.render('login', { error: error});

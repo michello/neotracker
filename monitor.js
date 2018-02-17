@@ -57,23 +57,23 @@ exports.start = function () {
     }, function(err, resp, body){
       const $ = cheerio.load(body);
       var rowData;
-      var tableData = $('table')[15];
+      var tableData = $('table')[14];
 /*
       switch (tableData.textContent.indexOf("There is currently")) {
         case -1:
           tableData = $('table')[14]
       }
-
-      rowData = $(tableData).find('tr');
-      console.log(rowData[0].children[0].data);
-
+*/
+    //  rowData = $(tableData).find('tr');
+      // console.log(rowData[0].children[0].data);
+/*
       if (rowData[0].indexOf("There is currently") === -1) {
         console.log(rowData[0]);
         tableData = $('table')[14];
       } else {
         tableData = $('table')[15];
-      } */
-
+      }
+*/
 
       rowData = $(tableData).find('tr');
 
