@@ -18,10 +18,12 @@ This will give me and other council members a better idea of how the guild is pe
 ![ER diagram](assets/img/mockup/ER%20diagram.png)
 
 ## challenges
-
+1. Parsing through Neopets was hard.
+2. Figuring out how to display the data on the graph AND the neomail was difficult.
+3. Setting up the database was also difficult.
 
 ## mockup 🎨
-<img src="assets/img/mockup/homepage.png" width="165px"> <img src="assets/img/mockup/memberspage.png" width="165px"> <img src="assets/img/mockup/neomailpage.png" width="165px"> <img src="assets/img/mockup/createneomailpage.png" width="165px"> <img src="assets/img/mockup/neomailcontentpage.png" width="165px">
+<img src="https://i.gyazo.com/8fc86fc3e215def465ef7d710e494f92.png" width="165px"> <img src="https://i.gyazo.com/5b12eafb723fc245f032e9c091ae2aa8.png" width="165px"> <img src="assets/img/mockup/neomailpage.png" width="165px"> <img src="assets/img/mockup/createneomailpage.png" width="165px"> <img src="assets/img/mockup/neomailcontentpage.png" width="165px">
 
 ## to do
 - [ ] fix `monitor.js` so that it accounts for when there is a poll, which means we have to look at the 15th table, not 14th)
