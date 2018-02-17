@@ -15,7 +15,7 @@ function dayPost(date, yesterday) {
   data['post_count'] = 0;
   data['members'] = 0;
   // var tracker;
-  var sql = "SELECT username, post_count FROM heroku_b9cc841585d204c.post WHERE date =?";
+  var sql = "SELECT username, post_count FROM post WHERE date =?";
   // getting all the names and post count of the members who posted today
   db.query(sql, [date], function(err, result) {
     if (typeof result !== "undefined") {
@@ -23,7 +23,7 @@ function dayPost(date, yesterday) {
         var tracker = info.post_count;
         // the posts for the current day
         data['post_count'] += info.post_count;
-        sql = "SELECT post_count FROM heroku_b9cc841585d204c.post WHERE date=? AND username=?";
+        sql = "SELECT post_count FROM post WHERE date=? AND username=?";
         db.query(sql, [yesterday, info.username], function(err, result){
 
           if (typeof result[0] !== "undefined") {
@@ -42,12 +42,7 @@ function dayPost(date, yesterday) {
   return(data);
 }
 
-/*
-
-posts[date][]
-*/
-
-sql = "SELECT * FROM heroku_b9cc841585d204c.week ORDER BY week desc limit 5";
+sql = "SELECT * FROM week ORDER BY week desc limit 5";
 db.query(sql, function(err, result) {
   // looking at each available week
   result.forEach(function(week) {
@@ -56,14 +51,10 @@ db.query(sql, function(err, result) {
     for (var i = 0; i < 7; i++) {
       var new_mem = 0;
       posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")] = {};
-      posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")] = dayPost(moment(week.week).add(i, 'day').format("YYYY-MM-DD"), moment(week.week).add(i, 'day').subtract(1, 'day').format("YYYY-MM-DD"));
-      sql = "SELECT COUNT(*) as new_mem FROM heroku_b9cc841585d204c.user WHERE joined = ?;";
+      posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")] = dayPost(moment(week.week).add(i+1, 'day').format("YYYY-MM-DD"), moment(week.week).add(i, 'day').format("YYYY-MM-DD"));
+      sql = "SELECT COUNT(*) as new_mem FROM user WHERE joined = ?;";
       db.query(sql, [moment(week.week).add(i, 'day').format("YYYY-MM-DD")], function(err, result){
         new_mem = result[0]['new_mem'];
-        /*
-        posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")]['new_mem'];
-        posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")]['new_mem'] = result[0]['new_mem'];
-        */
       });
       posts[moment(week.week).add(i, 'day').format("YYYY-MM-DD")]['new_mem'] = new_mem;
 
